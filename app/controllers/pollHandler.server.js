@@ -1,32 +1,42 @@
 'use strict';
 
-var User = require('../models/users.js');
 var Poll = require('../models/poll.js');
+var path = process.cwd();
 
-function pollHandler () { // supports add poll, add vote, delete poll methods
-
-	this.addClick = function (req, res) {
-		Users
-			.findOneAndUpdate({ 'github.id': req.user.github.id }, { $inc: { 'nbrClicks.clicks': 1 } })
-			.exec(function (err, result) {
-					if (err) { throw err; }
-
-					res.json(result.nbrClicks);
-				}
-			);
-	};
-
-	this.resetClicks = function (req, res) {
-		Users
-			.findOneAndUpdate({ 'github.id': req.user.github.id }, { 'nbrClicks.clicks': 0 })
-			.exec(function (err, result) {
-					if (err) { throw err; }
-
-					res.json(result.nbrClicks);
-				}
-			);
-	};
+function PollHandler () { // supports add poll, add vote, delete poll methods
+    
+//getPolls(req,res) takes optional queries by id and returns an array of matches
+//used for 3 purposes: retrieve all polls (index), all polls by an 
+//author (profile), and a specific poll (for voting or display);
+    
+    this.getPolls = function(req,res) {
+    	console.log("gettin polls");
+    	var query = req.query.id ? { _id: req.query.id } : {};
+    	Poll
+    		.find( query || {} )
+    		.exec(function (err, result) {
+    				if (err) { 
+    					console.log("error");
+    					throw err; }
+    				
+    				console.log("Result from Mongoose",result);
+    				res.json(result);
+    		});
+    };
+    
+    this.vote = function(req,res) {
+        console.log("voting",req.body.candidate);
+        var query = { "_id": req.query.id, "candidates.candidate": req.query.candidate };
+        Poll
+    		.findOneAndUpdate( query, {"$inc": { "candidates.$.votes": 1} }, function(err,result) {
+    		    if (err) throw err;
+    		    Poll.findOne( query, function(err,result) {
+    		        if (err) throw err;
+    		        res.json(result);
+    		    });
+    		});
+    };
 
 }
 
-module.exports = ClickHandler;
+module.exports = PollHandler;

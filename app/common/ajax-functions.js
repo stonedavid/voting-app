@@ -21,7 +21,7 @@ var ajaxFunctions = {
             callback(xmlhttp.response);
          }
       };
-
+      console.log("making", method,"to",url);
       xmlhttp.open(method, url, true);
       xmlhttp.send();
    }

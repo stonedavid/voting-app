@@ -202,3 +202,10 @@ span {
 	display: inline;
 	margin: 0;
 }
+
+/*****Poll Display Elements*****/
+
+.poll-display {
+	background-color: #DDD;
+	width: 600px;
+}

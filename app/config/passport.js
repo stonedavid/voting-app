@@ -1,4 +1,7 @@
 'use strict';
+//This only handles authentication, but it does also demonstrate adding a schema
+//to the db with mongoose
+
 
 var GitHubStrategy = require('passport-github').Strategy;
 var User = require('../models/users');

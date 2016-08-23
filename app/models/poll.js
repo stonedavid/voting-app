@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Poll = new Schema({
-    author: String, // ObjectId.toString() of creator
+    author: Object,
     question: String,
 	candidates: Array
 });

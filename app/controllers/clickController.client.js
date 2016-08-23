@@ -1,5 +1,7 @@
 'use strict';
 
+// This directs client events to the proper routes, which execute controllers
+
 (function () {
 
    var addButton = document.querySelector('.btn-add');
