@@ -9,9 +9,42 @@ function PollHandler () { // supports add poll, add vote, delete poll methods
 //used for 3 purposes: retrieve all polls (index), all polls by an 
 //author (profile), and a specific poll (for voting or display);
     
+    this.newPoll = function(req,res,body) {
+        console.log("Body",body);
+        var candidates = [];
+        for (var property in body) {
+            if (body.hasOwnProperty(property) && property !== "2" && body[property] !== "") {
+                candidates.push({
+                    candidate: body[property]
+                    , votes: 0
+                    });
+                }
+            }
+        
+        console.log("candidates",candidates);
+        
+        var poll = new Poll({
+                author: req.user
+                , question: body[2]
+                , candidates: candidates});
+                
+        poll.save(function(err) {
+            if (err) throw err;
+            console.log("Saved new poll:", body.question);
+        });
+        
+        res.redirect("/");
+    };
+    
     this.getPolls = function(req,res) {
     	console.log("gettin polls");
-    	var query = req.query.id ? { _id: req.query.id } : {};
+    	var query = {};
+    	if (req.query.id) {
+    	    query._id = req.query.id;
+    	}
+    	if (req.query.question) {
+    	    query.question = new RegExp(req.query.question,"i");
+    	}
     	Poll
     		.find( query || {} )
     		.exec(function (err, result) {

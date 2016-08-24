@@ -206,6 +206,10 @@ span {
 /*****Poll Display Elements*****/
 
 .poll-display {
-	background-color: #DDD;
+	background-color: #EEEEEE;
 	width: 600px;
+}
+
+#poll-display {
+	margin-top: 20px;
 }

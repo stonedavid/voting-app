@@ -60,7 +60,12 @@ module.exports = function (app, passport) {
 		.delete(isLoggedIn, clickHandler.resetClicks);
 		
 	app.route('/api/:id/polls')
-		.get(isLoggedIn, pollHandler.getPolls);
+		.get(isLoggedIn, function(req,res) {
+			pollHandler.getPolls(req,res);
+		})
+		.post(isLoggedIn, function(req,res) {
+			pollHandler.newPoll(req,res,req.body);
+		});
 		
 	app.route('/api/:id/vote')
 		.post(isLoggedIn, pollHandler.vote);
