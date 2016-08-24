@@ -9,6 +9,7 @@
    var voteUrl = appUrl + "/api/:id/vote";
    var filter = document.querySelector("#filter");
    var newPoll = document.querySelector(("#newPoll"));
+   var profilePolls = document.querySelector(("#profilePolls"));
    var query = "";
 
    function showAllPolls (data) {
@@ -40,8 +41,8 @@
             }
             
             var pollFormDiv = document.createElement("div");
-            pollFormDiv.className = "container center-block";
-            pollFormDiv.style.textAlign = "center";
+            pollFormDiv.className = "container center-block vote-container";
+            pollFormDiv.style.width = "80%";
             
             var pollForm = document.createElement("form");
             pollForm.addEventListener("submit",voteSubmit.bind(this,pollData._id));
@@ -49,20 +50,26 @@
             
             for (var i = 0; i<pollData.candidates.length; i++) {
                
+               var radioWrap = document.createElement("div");
+               radioWrap.className = "radio";
+               
                var newInput = document.createElement("input");
                newInput.setAttribute("type","radio");
                newInput.setAttribute("name","candidate");
                newInput.setAttribute("value",pollData.candidates[i].candidate);
                
-               var inputLabel = document.createTextNode(pollData.candidates[i].candidate);
-               pollForm.appendChild(newInput);
-               pollForm.appendChild(inputLabel);
-               pollForm.appendChild(document.createElement("br"));
+               var inputLabel = document.createElement("label");
+               var labelText = document.createTextNode(pollData.candidates[i].candidate);
+               inputLabel.appendChild(newInput);
+               inputLabel.insertAdjacentHTML("beforeend",pollData.candidates[i].candidate);
+               pollForm.appendChild(radioWrap).appendChild(inputLabel);
+
             }
             
             var submitButton = document.createElement("input");
             submitButton.setAttribute("type","submit");
             submitButton.setAttribute("value","Submit");
+            submitButton.className = "btn";
             console.log("submit added");
             
             
@@ -84,18 +91,61 @@
       form.setAttribute("method","post");
       form.setAttribute("enctype","application/x-www-form-urlencoded");
       
+      var buttonToolbar = document.createElement("div");
+      buttonToolbar.className = "btn-toolbar";
+      buttonToolbar.setAttribute("role","toolbar");
+      
+      form.appendChild(buttonToolbar);
+      
+      var submitGroup = document.createElement("div");
+      submitGroup.className = "btn-group";
+      submitGroup.setAttribute("role","group");
+      
+      buttonToolbar.appendChild(submitGroup);
+      
+      var addGroup = document.createElement("div");
+      addGroup.className = "btn-group pull-right";
+      addGroup.setAttribute("role","group");
+      
+      buttonToolbar.appendChild(addGroup);
+      
       var submitButton = document.createElement("input");
       submitButton.setAttribute("type","submit");
       submitButton.setAttribute("value","Submit");
-      submitButton.className = "btn btn-secondary btn-sm";
-      form.appendChild(submitButton);
-         
+      submitButton.className = "btn btn-secondary";
+      submitGroup.appendChild(submitButton);
+      
+      var cancelButton = document.createElement("button");
+      cancelButton.className = "btn btn-secondary";
+      cancelButton.setAttribute("type","button");
+      cancelButton.innerHTML = "Cancel";
+      submitGroup.appendChild(cancelButton);
+
+      
+      var rmCandidate = document.createElement("button");
+      rmCandidate.className = "btn btn-secondary";
+      rmCandidate.setAttribute("type","button");
+      rmCandidate.innerHTML = "-";
+      addGroup.appendChild(rmCandidate);
+      
+      var addCandidate = document.createElement("button");
+      addCandidate.className = "btn btn-secondary";
+      addCandidate.setAttribute("type","button");
+      addCandidate.innerHTML = "+";
+      addGroup.appendChild(addCandidate);
+      
+      addCandidate.addEventListener("click",makeField.bind(null,"Candidate: "));
+      rmCandidate.addEventListener("click",removeField);
+      cancelButton.addEventListener("click", function() {
+         ajaxFunctions.ajaxRequest('GET', pollUrl + query, showAllPolls);
+      });
+      
       //Helper function to append fields to form  
       function makeField(field) {   
          
          var fieldRow = document.createElement("div");
          fieldRow.className = "form-group row";
-         form.insertBefore(fieldRow,submitButton);
+         form.insertBefore(fieldRow,buttonToolbar);
          
          var fieldLabel = document.createElement("label");
          fieldLabel.className = "col-xs-2 col-form-label";
@@ -111,7 +161,6 @@
          fieldInput.setAttribute("type","text");
          fieldInput.setAttribute("id",field + "-input");
          fieldInput.setAttribute("name",form.childElementCount.toString());
-         fieldInput.setAttribute("value","testvalue");
          fieldInput.addEventListener("keypress", function(event) {
             var x = event.which;
             if (x === 13) {
@@ -125,7 +174,7 @@
       }
       
       function removeField() {
-         form.removeChild(submitButton.previousElementSibling);
+         form.removeChild(buttonToolbar.previousElementSibling);
       }
       
       makeField("Question");
@@ -133,18 +182,6 @@
       makeField("Candidate");
       makeField("Candidate");
       
-      var rmCandidate = document.createElement("div");
-      rmCandidate.className = "btn btn-secondary btn-sm";
-      rmCandidate.innerHTML = "-";
-      form.appendChild(rmCandidate);
-      
-      var addCandidate = document.createElement("div");
-      addCandidate.className = "btn btn-secondary btn-sm";
-      addCandidate.innerHTML = "+";
-      form.appendChild(addCandidate);
-      
-      addCandidate.addEventListener("click",makeField.bind(null,"Candidate: "));
-      rmCandidate.addEventListener("click",removeField);
    }      
    
    function voteSubmit(id,event) {
@@ -182,7 +219,8 @@
             }
             
       var pollDataWrapper = document.createElement("div");
-      pollDataWrapper.className = "container";
+      pollDataWrapper.className = "container vote-container";
+      pollDataWrapper.style.width = "80%";
          
       var headingRow = makeRow();
       var headingCol = makeCol(12);
@@ -204,23 +242,37 @@
          
          candidateCol.innerHTML = candidate;
          votesCol.innerHTML = votes.toString();
+         votesCol.style.textAlign = "right";
          
          candidateRow.appendChild(candidateCol);
          candidateRow.appendChild(votesCol);
          
          pollDataWrapper.appendChild(candidateRow);
       }
-         
-      pollDisplay.appendChild(pollDataWrapper);
       
       var backButton = document.createElement("div");
       backButton.className = "btn btn-block";
-      backButton.innerHTML = "Back to Polls";
+      backButton.innerHTML = "Back";
       backButton.addEventListener("click", function() {
          ajaxFunctions.ajaxRequest('GET', pollUrl + query, showAllPolls);
       });
       
-      pollDisplay.appendChild(backButton);
+      var topSpacer = makeRow();
+      topSpacer.appendChild(document.createElement("hr"));
+      
+      
+      var buttonRow = makeRow();
+      var leftSpacer = makeCol(4);
+      var rightSpacer = makeCol(4);
+      var buttonCol = makeCol(4);
+      
+      pollDataWrapper.appendChild(topSpacer);
+      pollDataWrapper.appendChild(buttonRow).appendChild(leftSpacer);
+      buttonRow.appendChild(buttonCol).appendChild(backButton);
+      buttonRow.appendChild(rightSpacer);
+      
+      pollDisplay.appendChild(pollDataWrapper);
+      
    }
 
    ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', pollUrl + query, showAllPolls));
@@ -233,7 +285,9 @@
    
    newPoll.addEventListener("click",pollForm);
    
-   console.log("Filter object",filter);
+   profilePolls.addEventListener("click", function() {
+      ajaxFunctions.ajaxRequest("GET", pollUrl + "?profile=1", showAllPolls);
+   });
    
    /*addButton.addEventListener('click', function () {
 

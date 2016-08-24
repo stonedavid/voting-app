@@ -34,6 +34,10 @@ p {
 	margin: 8px 0 0 0;
 }
 
+nav {
+	padding-right: 8px;
+}
+
 .container p {
 	text-align: center;
 	padding: 0;
@@ -109,7 +113,20 @@ img {
 	margin: -25px 0 0 0;
 	font-weight: 500;
 	font-size: 60px;
-	color: #FFA000;
+	color: black;
+}
+
+.title-link:hover {
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.title-link:active {
+	text-decoration: none;
+}
+
+.title-link:visited {
+	text-decoration: none;
 }
 
 /****** Click Styling ******/
@@ -121,19 +138,27 @@ img {
 
 .btn {	/* Styling for buttons */
 	margin: 0 8px;
-	color: white;
-	background-color: #00BCD4;
+	color: black;
+	background-color: #FFFFFF;
 	display: inline-block;
-	border: 0;
+	border: solid 1px black !important;
+	border-radius: 10px;
 	font-size: 14px;
-	border-radius: 3px;
 	padding: 10px 5px;
 	width: 100px;
 	font-weight: 500;
 }
 
+.btn-secondary {
+	margin: 0px 0px 0px 0px;
+}
+
 .btn:focus {	/* Remove outline when hovering over button */
 	outline: none;
+}
+
+.btn:hover {
+	color: #DDD;
 }
 
 .btn:active {	/* Scale the button down by 10% when clicking on button */
@@ -145,6 +170,10 @@ img {
 .btn-delete {	/* Styling for delete button */
 	background-color: #ECEFF1;
 	color: #212121;
+}
+
+.navbar-btn {
+	border: solid 1px black !important;
 }
 
 #click-nbr {
@@ -205,11 +234,13 @@ span {
 
 /*****Poll Display Elements*****/
 
-.poll-display {
-	background-color: #EEEEEE;
-	width: 600px;
-}
 
 #poll-display {
 	margin-top: 20px;
+}
+
+.vote-container {
+	border: solid 2px black;
+	padding-bottom: 10px;
+	width: 66%;
 }

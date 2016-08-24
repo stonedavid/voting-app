@@ -45,6 +45,9 @@ function PollHandler () { // supports add poll, add vote, delete poll methods
     	if (req.query.question) {
     	    query.question = new RegExp(req.query.question,"i");
     	}
+    	if (req.query.profile) {
+    	    query["author._id"] = req.user._id;
+    	}
     	Poll
     		.find( query || {} )
     		.exec(function (err, result) {
