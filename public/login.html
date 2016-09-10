@@ -3,23 +3,40 @@
 <html>
 
 	<head>
-		<title>Clementine.js - The elegant and lightweight full stack JavaScript boilerplate.</title>
-		
+<title>Checkbox -- live polling</title>		
 		<link href="/public/css/main.css" rel="stylesheet" type="text/css">
 	</head>
 
 	<body>
 		<div class="container">	
-			<div class="login">
+			<div class="row login">
 				<img src="/public/img/noun_51612_cc.png" style="height:200px;width:200px" />
 				<br />
 				<p class="clementine-text">checkbox</p>
 				<a href="/auth/github">
 					<div class="btn" id="login-btn">
-						<img src="/public/img/github_32px.png" alt="github logo" />
+						<img src="/public/img/github_black64px.png" height="32" width="32" alt="github logo" />
 						<p>LOGIN WITH GITHUB</p>
 					</div>
 				</a>
+			</div>
+			<div class="row" style="text-align:center;">
+				<a href="/local-login">
+					<div class="btn" id="login-btn">
+						<img src="/public/img/noun_51612_cc.png" height="32" width="32" alt="checkbox logo" />
+						<p>LOGIN LOCALLY</p>
+					</div>
+				</a>
+				
+			</div>
+			<div class="row" style="text-align:center;">
+				<a href="/guest-login">
+					<div class="btn" id="login-btn">
+						<img src="/public/img/noun_51612_cc.png" height="32" width="32" alt="checkbox logo" />
+						<p>LOGIN AS GUEST</p>
+					</div>
+				</a>
+				
 			</div>
 		</div>
 	</body>

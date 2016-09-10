@@ -19,7 +19,7 @@
 body {
 	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
-	margin: 0;
+	margin-top: 20px !important;
 	padding: 0;
 }
 
@@ -75,6 +75,10 @@ header a ~ p {
 	color: #ECEFF1;
 }
 
+h3 {
+	margin-left: 10px;
+}
+
 #display-name {
 	font-weight: 400;
 }
@@ -99,6 +103,11 @@ header a ~ p {
 .btn > img {
 	float: left;
 	margin-left: 10px
+}
+
+.text-error {
+	background-color: yellow;
+	display:inline-block;
 }
 
 /****** Logo Div Styling ******/
@@ -137,14 +146,12 @@ img {
 }
 
 .btn {	/* Styling for buttons */
-	margin: 0 8px;
 	color: black;
 	background-color: #FFFFFF;
 	display: inline-block;
 	border: solid 1px black !important;
 	border-radius: 10px;
 	font-size: 14px;
-	padding: 10px 5px;
 	width: 100px;
 	font-weight: 500;
 }
@@ -174,6 +181,10 @@ img {
 
 .navbar-btn {
 	border: solid 1px black !important;
+}
+
+.navbar-btn:first-child {
+	margin-left: 10px;
 }
 
 #click-nbr {
@@ -219,11 +230,11 @@ span {
 }
 
 .github-profile .menu:hover {
-	color: #FFA000;
+	color: black;
 }
 
 .github-profile .menu:active {
-	color: #FF630D;
+	color: black;
 }
 
 #menu-divide {
@@ -237,10 +248,30 @@ span {
 
 #poll-display {
 	margin-top: 20px;
+	width: 50%;
+}
+
+.row > div {
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+.row {
+	margin-bottom: 5px;
 }
 
 .vote-container {
 	border: solid 2px black;
 	padding-bottom: 10px;
 	width: 66%;
+}
+
+.btn-warning {
+	background-color: red;
+	background-color: hsl(0,100%,80%) !important;
+}
+
+
+.col-xs-11 .btn {
+	padding-left: 12%;
 }
